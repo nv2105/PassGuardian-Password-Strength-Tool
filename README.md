@@ -1,5 +1,10 @@
 # 🔐 PassGuardian: Smart Password Evaluator
 
+[![PyPI - Version](https://img.shields.io/pypi/v/passguardian)](https://pypi.org/project/passguardian/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://mit-license.org)
+[![Python](https://img.shields.io/badge/Python-3.7+-blue.svg)](https://www.python.org/)
+
+
 PassGuardian is a smart, terminal-based password strength evaluator that helps you create and test strong, secure passwords in real time. It combines entropy analysis, breach detection, actionable feedback, and an optional password generator — all with a colorful, polished CLI experience.
 
 ---
@@ -26,6 +31,17 @@ PassGuardian is a smart, terminal-based password strength evaluator that helps y
 - Optional: HIBP Pwned Passwords API
 
 ---
+## 📦 Installation via PyPI
+
+You can install PassGuardian globally using pip:
+
+```bash
+pip install passguardian
+```
+Then launch it from your terminal:
+```bash
+passguardian
+```
 
 ## ⚙️ How to Run
 
