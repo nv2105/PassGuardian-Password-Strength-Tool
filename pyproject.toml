@@ -1,0 +1,24 @@
+[project]
+name = "passguardian"
+version = "1.0.0"
+description = "A smart password strength evaluator and generator with entropy scoring and breach check."
+readme = "README.md"
+requires-python = ">=3.7"
+license = "MIT"
+authors = [
+  { name = "Naman Vora", email = "your.email@example.com" }
+]
+dependencies = [
+  "requests",
+  "rich"
+]
+
+[project.scripts]
+passguardian = "passguardian.evaluator:main"
+
+[tool.setuptools]
+packages = ["passguardian"]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

@@ -139,3 +139,8 @@ def run_password_tester():
             console.print("[bold green]🎉 Your password is strong and ready to protect your data! 💪🔐[/bold green]")
 
         print("\n" + "-"*50 + "\n")
+
+
+# CLI wrapper for packaging entry point
+def main():
+    run_password_tester()
