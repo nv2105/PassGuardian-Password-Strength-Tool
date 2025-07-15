@@ -1,4 +1,6 @@
 from passguardian.breaches import check_password_breach
+from passguardian.generator import generate_password
+
 
 import re
 import time
@@ -73,11 +75,35 @@ def run_password_tester():
     welcome_message()
     while True:
         print("\nType 'exit' to leave the tester anytime.")
+        print("Type 'generate' to create a strong suggested password.")
+
         password = input("\n🔐 Enter a password to test its strength: ")
+
         if password.lower() == 'exit':
             print("\n👋 Thanks for using PassGuardian! Stay secure! 💻")
             break
 
+        elif password.lower() == 'generate':
+            try:
+                length = int(input("🔢 Desired length (min 8): "))
+                if length < 8:
+                    print("❌ Length must be at least 8 characters.")
+                    continue
+
+                use_upper = input("Include UPPERCASE letters? (y/n): ").lower() == 'y'
+                use_lower = input("Include lowercase letters? (y/n): ").lower() == 'y'
+                use_digits = input("Include numbers? (y/n): ").lower() == 'y'
+                use_symbols = input("Include symbols? (y/n): ").lower() == 'y'
+
+                password = generate_password(length, use_upper, use_lower, use_digits, use_symbols)
+                print(f"\n🎁 Your generated password is: {password}")
+                print("🔁 Testing its strength now...\n")
+
+            except Exception as e:
+                print(f"❌ Error: {e}")
+                continue
+
+        # --- Common evaluation (runs for both typed & generated password) ---
         entropy = calculate_entropy(password)
         print(f"🧠 Estimated Entropy: {entropy} bits")
 
@@ -88,7 +114,6 @@ def run_password_tester():
             print("✅ No known breaches found for this password.")
         else:
             print(f"⚠️ WARNING: This password was found in {breach_count:,} breaches! Avoid using it.")
-
 
         strength, feedback = check_password_strength(password)
         print("\n" + "="*50)
