@@ -82,6 +82,6 @@ PassGuardian/
 ### [Github ](https://github.com/nv2105) | [LinkedIn](www.linkedin.com/in/namanvora21)
 
 ### 📄 License
-[MIT License](https://github.com/nv2105/PassGuardian/blob/main/LICENSE)
+[MIT License](https://mit-license.org)
 
 
