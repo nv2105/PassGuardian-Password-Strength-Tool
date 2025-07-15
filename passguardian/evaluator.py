@@ -1,5 +1,8 @@
+from passguardian.breaches import check_password_breach
+
 import re
 import time
+import math
 
 def run_password_tester():
     def welcome_message():
@@ -50,6 +53,21 @@ def run_password_tester():
             return "Moderate password", feedback
         else:
             return "🎉 Strong password!", feedback
+    import math
+
+    def calculate_entropy(password):
+        charset = 0
+        if re.search(r'[a-z]', password): charset += 26
+        if re.search(r'[A-Z]', password): charset += 26
+        if re.search(r'[0-9]', password): charset += 10
+        if re.search(r'[@$!%*?&]', password): charset += 10
+
+        if charset == 0:
+            return 0.0
+
+        entropy = len(password) * math.log2(charset)
+        return round(entropy, 2)
+
 
     # CLI loop
     welcome_message()
@@ -59,6 +77,18 @@ def run_password_tester():
         if password.lower() == 'exit':
             print("\n👋 Thanks for using PassGuardian! Stay secure! 💻")
             break
+
+        entropy = calculate_entropy(password)
+        print(f"🧠 Estimated Entropy: {entropy} bits")
+
+        breach_count = check_password_breach(password)
+        if breach_count == -1:
+            print("🌐 Breach check failed (offline or API error).")
+        elif breach_count == 0:
+            print("✅ No known breaches found for this password.")
+        else:
+            print(f"⚠️ WARNING: This password was found in {breach_count:,} breaches! Avoid using it.")
+
 
         strength, feedback = check_password_strength(password)
         print("\n" + "="*50)
