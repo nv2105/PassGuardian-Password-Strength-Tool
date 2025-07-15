@@ -1,10 +1,17 @@
 from passguardian.breaches import check_password_breach
 from passguardian.generator import generate_password
+from rich.console import Console
+from rich.panel import Panel
+from rich.text import Text
+from rich import box
 
 
 import re
 import time
 import math
+
+console = Console()
+
 
 def run_password_tester():
     def welcome_message():
@@ -105,26 +112,30 @@ def run_password_tester():
 
         # --- Common evaluation (runs for both typed & generated password) ---
         entropy = calculate_entropy(password)
-        print(f"🧠 Estimated Entropy: {entropy} bits")
+        console.print(f"🧠 Estimated Entropy: [bold cyan]{entropy} bits[/bold cyan]")
+
 
         breach_count = check_password_breach(password)
         if breach_count == -1:
-            print("🌐 Breach check failed (offline or API error).")
+            console.print("🌐 [bold yellow]Breach check failed[/bold yellow] (offline or API error).")
         elif breach_count == 0:
-            print("✅ No known breaches found for this password.")
+            console.print("✅ [bold green]No known breaches[/bold green] found for this password.")
         else:
-            print(f"⚠️ WARNING: This password was found in {breach_count:,} breaches! Avoid using it.")
+            console.print(f"⚠️ [bold red]WARNING:[/bold red] This password was found in [bold]{breach_count:,}[/bold] breaches! [italic]Avoid using it.[/italic]")
 
         strength, feedback = check_password_strength(password)
-        print("\n" + "="*50)
-        print(f"🔒 Password Strength: {strength}")
-        print("="*50)
+        console.print(Panel.fit(
+            f"🔒 Password Strength: {strength}",
+            title="Result",
+            style="bold green" if "Strong" in strength else "bold yellow" if "Moderate" in strength else "bold red",
+            box=box.ROUNDED
+        ))
+
 
         if feedback:
-            print("\n💡 Tips to improve your password:")
-            for suggestion in feedback:
-                print(f"- {suggestion}")
+            tips = "\n".join(f"• {tip}" for tip in feedback)
+            console.print(Panel(tips, title="💡 Tips to Improve", style="bold yellow", box=box.SQUARE))
         else:
-            print("\n🎉 Your password is strong and ready to protect your data! 💪🔐")
+            console.print("[bold green]🎉 Your password is strong and ready to protect your data! 💪🔐[/bold green]")
 
         print("\n" + "-"*50 + "\n")
